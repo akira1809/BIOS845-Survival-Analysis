@@ -1,0 +1,877 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsfonts}
+
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsrefs}
+\usepackage{ulem}
+\usepackage[dvips]{graphicx}
+\usepackage{color}
+\usepackage{bm}
+
+\setlength{\headheight}{26pt}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+
+\topmargin 0pt
+%Forrest Shortcuts
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{pf}{Proof}
+\newtheorem{sol}{Solution}
+\newcommand{\R}{{\ensuremath{\mathbb R}}}
+\newcommand{\J}{{\ensuremath{\mathbb J}}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\T}{{\mathbb T}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\st}{{\text{\ s.t.\ }}}
+\newcommand{\rto}{\hookrightarrow}
+\newcommand{\rtto}{\hookrightarrow\rightarrow}
+\newcommand{\tto}{\to\to}
+\newcommand{\C}{{\mathbb C}}
+\newcommand{\ep}{\epsilon}
+%CJ shortcuts
+\newcommand{\thin}{\thinspace}
+\newcommand{\beps}{\boldsymbol{\epsilon}}
+\newcommand{\bwoc}{by way of contradiction}
+
+%Munkres formatting?
+%\renewcommand{\theenumii}{\alph{enumi}}
+\renewcommand{\labelenumi}{\theenumi.}
+\renewcommand{\theenumii}{\alph{enumii}}
+\renewcommand{\labelenumii}{(\theenumii)}
+
+\title{HW1}
+\author{Guanlin Zhang}
+
+\lhead{Dr Milind Phadnis
+ \\BIOS 845} \chead{}
+\rhead{Guanlin Zhang\\ Spring '18} \pagestyle{fancyplain}
+%\maketitle
+
+\begin{document}
+
+Question $\# 1$:
+\begin{sol}
+	For part $(a)$:\vskip 2mm
+	We seek to prove equation $(2.4.3)$ from textbook, which is the following eqution:\vskip 2mm
+	Given continuous positive random variable $X$, the variance is
+	\begin{align*}
+		Var(X) &= 2\int_0^{\infty}t S(t) dt - \Big[\int_0^{\infty}S(t) d t\Big]^2
+	\end{align*}
+	Here is the proof:\vskip 2mm
+	Since we know that
+	\begin{align*}
+		Var(X) &= E[X^2] - \Big(E[X]\Big)^2
+	\end{align*}
+	We compute $E[X^2]$ and $E[X]$ separately.\vskip 2mm
+	We havve:
+	\begin{align*}
+		E[X] &= \int_0^{\infty} t f(t) d t = -\int_0^{\infty}t dS(t) = -tS(t)\Big\vert_0^{\infty} + \int_0^{\infty}S(t)d t\\
+		&= \int_0^{\infty}S(t)d t
+	\end{align*}
+	and
+	\begin{align*}
+		E[X^2] &= \int_0^{\infty}t^2 f(t)dt = -\int_0^{\infty}t^2d S(t) = -t^2S(t)\Big\vert_0^{\infty} + \int_0^{\infty}2t S(t) dt\\
+		&= 2\int_0^{\infty} t S(t)d t 
+	\end{align*}
+	Plug these into the equation for variance, we got
+	\begin{align*}
+		Var(X) &= E[X^2] - \Big(E[X]\Big)^2\\
+		&= 2\int_0^{\infty}t S(t) dt - \Big[\int_0^{\infty}S(t) d t\Big]^2
+	\end{align*}
+	For part $(b)$:\vskip 2mm
+	We are going to prove the `lack of memory ' property for exponential distribution:
+	\begin{align*}
+		P(X \geq x + z| X \geq x) = P(X \geq z)
+	\end{align*}
+	We have:
+	\begin{align*}
+		P(X \geq x + z| X \geq x) &= \frac{P(X \geq x + z, X \geq x)}{P(X \geq x)} = \frac{P(X \geq x + z)}{P(X \geq x)} = \frac{\int_{x + z}^{\infty}\lambda e^{-\lambda t} d t}{\int_{x}^{\infty}\lambda e^{-\lambda t}d t}\\
+		&= \frac{-e^{-\lambda t}\Big\vert_{x + z}^{\infty}}{-e^{-\lambda t}\Big\vert_{x}^{\infty}}= \frac{\lambda e^{-\lambda(x + z)}}{\lambda e^{-\lambda x}}\\
+		&= e^{-\lambda z} = P(X \geq z)
+	\end{align*}
+	Also we can compute the mean residual life time for exponential distribution:
+	\begin{align*}
+		mrl(x) &= E[X - x| X > x] = \frac{\int_x^{\infty}(t - x)f(t) d t}{S(x)} = \frac{\int_x^{\infty}S(t) d t}{S(x)}\\
+		&= \frac{\int_x^{\infty}e^{-\lambda t} d t}{e^{-\lambda x}} = \frac{\frac{-1}{\lambda}\int_x^{\infty}e^{-\lambda t}d (-\lambda t)}{e^{-\lambda x}}\\
+		&= \frac{-\frac{1}{\lambda}e^{-\lambda t}\Big\vert_x^{\infty}}{e^{-\lambda x}} =\frac{\frac{1}{\lambda}e^{-\lambda x}}{e^{-\lambda x}}\\
+		&= \frac{1}{\lambda}
+	\end{align*}
+	For part $(c)$:\vskip 2mm
+	We show an alternative expression for $mrl(x)$:
+	\begin{align*}
+		mrl(x) &= \frac{\int_x^{\infty}(u - x)f(u) d u}{S(x)} = \frac{\int_x^{\infty} u f(u) d u - x\int_x^{\infty}f(u)d u}{S(x)} = \frac{\int_x^{\infty}uf(u)d u - xS(x)}{S(x)}\\
+		&= \frac{\int_x^{\infty} u f(u) d u}{S(x)} - x
+	\end{align*}
+	For part $(d)$:\vskip 2mm
+	The multiplicative hazard model is:
+	\begin{align*}
+		h(x|{\bf Z}) &= h_0(x)G({\bm \beta}'{\bf Z})
+	\end{align*}
+	We want to show that
+	\begin{align*}
+		S(x|{\bf Z}) &= [S_0(x)]^{G({\bm \beta}'{\bf Z})}
+	\end{align*}
+	We use two different approaches to prove this:\vskip 2mm
+	The first approach is the same as the one on the textbook in the practical section, we have:
+	\begin{align*}
+		S(x|{\bf Z}) &= \exp\Big\{-\int_0^x h(u|{\bf Z}) d u\Big\} = \exp\Big\{-\int_0^x h_0(u)G({\bm \beta}'{\bf Z})d u\Big\}\\
+		&= \exp\Big\{-G({\bm \beta}'{\bf Z})\int_0^x h_0(u)d u\Big\} =  \Big(\exp\Big\{-\int_0^x h_0(u))d u\Big\}\Big)^{G({\bm \beta}'{\bf Z})}\\
+		&= S_0(x)^{G({\bm \beta}'{\bf Z})}
+	\end{align*}
+	The second approach is essentially the same idea using the ODE(ordinary differential equation) theory, but in a different algebraic flavor:\vskip 2mm
+	Since we have
+	\begin{align*}
+		h(x|{\bf Z}) &= h_0(x)G({\bm \beta}'{\bf Z})
+	\end{align*}
+	and $h(x|{\bf Z} = 0) = h_0(x)$, we got $G(0) = 1$.\vskip 2mm
+	From the equation above we got:
+	\begin{align*}
+		&\ h(x|{\bf Z}) = h_0(x)G({\bm \beta}'{\bf Z}) \Longrightarrow \frac{f(x|{\bf Z})}{S(x|{\bf Z})} = \frac{f_0(x)}{S_0(x)}G({\bm \beta}'{\bf Z})\\
+		&\Longrightarrow -\frac{d}{dx}\log S(x|{\bf Z}) = -G({\bm \beta}'{\bf Z})\frac{d}{dx}\log S_0(x)
+	\end{align*}
+	Integrate on both sides, we got:
+	\begin{align*}
+		&\ -\log S(x|{\bf Z}) = -G({\bm \beta}'{\bf Z})\log S_0(x) + \text{Constant}\\
+		&\Longrightarrow S(x|{\bf Z}) = \text{Constant}\cdot S_0(x)^{G({\bm \beta}'{\bf Z})}
+	\end{align*}
+	Since when ${\bf Z} = {\bf 0}$ we have $G({\bm \beta}'{\bf Z}) = G(0) = 1$ as explained before, and also $S(x|{\bf Z} ={\bf 0}) = S_0(x)$, we got
+	\begin{align*}
+		S(x|{\bf Z} = {\bf 0}) = S_0(x) = \text{Constant}\cdot S_0(x)
+	\end{align*}
+	which implies $\text{Constant} = 1$.So we conclude
+	\begin{align*}
+		S(x|{\bf Z}) = S_0(x)^{G({\bm \beta}'{\bf Z})}
+	\end{align*}
+\end{sol}
+
+Question $\#2$:
+\begin{sol}
+	For part $(a)$:\vskip 2mm
+	(i) If $X \sim Weibull(\lambda, \alpha)$, we have the pdf of $X$ as
+	\begin{align*}
+		f(x) &= \alpha\lambda x^{\alpha - 1}\exp(-\lambda x^{\alpha})
+	\end{align*}
+	with survival function
+	\begin{align*}
+		S(x) &= \exp[-\lambda x^{\alpha}]
+	\end{align*}
+	So the mean for weibull distribution is
+	\begin{align*}
+		E[X] &= \int_0^{\infty}x \cdot \alpha\lambda x^{\alpha - 1}\exp(-\lambda x^{\alpha})d x = \int_0^{\infty} \alpha\lambda x^{\alpha}e^{-\lambda x^{\alpha}}d x\\
+		&=  \int_0^{\infty}x\cdot e^{-\lambda x^{\alpha}}d \lambda x^{\alpha}\\
+		&= \frac{1}{\lambda^{1/\alpha}}\int_0^{\infty}(\lambda x^{\alpha})^{(1 + \frac{1}{\alpha}) - 1}e^{-\lambda x^{\alpha}}d \lambda x^{\alpha}\\
+		&= \frac{\Gamma(1 + \frac{1}{\alpha})}{\lambda^{1/\alpha}}
+			\end{align*}
+	To compute the variance, we first compute the second moment:
+	\begin{align*}
+		E[X^2] &= \int_0^{\infty}x^2 \alpha\lambda x^{\alpha - 1}e^{-\lambda x^{\alpha}}d x = \int_0^{\infty}x^2e^{-\lambda x^{\alpha}}d \lambda x^{\alpha}\\
+		&= \frac{1}{\lambda^{2/\alpha}}\int_0^{\infty}(\lambda x^{\alpha})^{\frac{2}{\alpha}}e^{-\lambda x^{\alpha}}d\lambda x^{\alpha}= \frac{1}{\lambda^{2/\alpha}}\int_0^{+\infty}(\lambda x^{\alpha})^{(\frac{2}{\alpha} + 1) - 1}e^{-\lambda x^{\alpha}}d\lambda x^{\alpha}\\
+		&= \frac{\Gamma(\frac{2}{\alpha} + 1)}{\lambda^{\frac{2}{\alpha}}}
+	\end{align*}
+	So the variance of weibull distribution is:
+	\begin{align*}
+		Var[X] &= E[X^2] - \Big(E[X]\Big)^2 =  \frac{\Gamma(\frac{2}{\alpha} + 1)}{\lambda^{\frac{2}{\alpha}}} - \Big(\frac{\Gamma(1 + \frac{1}{\alpha})}{\lambda^{1/\alpha}}\Big)^2\\
+		&= \frac{\Big(\Gamma(\frac{2}{\alpha} + 1) - \Gamma^2(1 + \frac{1}{\alpha})\Big)}{\lambda^{\frac{2}{\alpha}}}
+	\end{align*}
+	(ii) If $X \sim \Gamma(\beta, \lambda)$(I am following the notation from textbook, see Table 2.2 on page 38), then we have the pdf
+	\begin{align*}
+		f(x) &= \frac{\lambda^{\beta}x^{\beta - 1}e^{-\lambda x}}{\Gamma(\beta)}
+	\end{align*}
+	So the mean of gamma distribution is:
+	\begin{align*}
+		E[X] &= \int_0^{\infty}x\cdot \frac{x^{\beta - 1}\lambda^{\beta}e^{-\lambda x}}{\Gamma(\beta)}d x = \int_0^{\infty}x\cdot \frac{(\lambda x)^{\beta - 1}e^{-\lambda x}}{\Gamma(\beta)}d \lambda x\\
+		&= \frac{1}{\lambda}\int_0^{\infty}\frac{(\lambda x)^{(\beta + 1) - 1}e^{-\lambda x}d\lambda x}{\Gamma(\beta)} = \frac{1}{\lambda\Gamma(\beta)}\Gamma(\beta + 1)\\
+		&= \frac{\beta\Gamma(\beta)}{\lambda\Gamma(\beta)} = \frac{\beta}{\lambda}
+	\end{align*}
+	To compute the variance, we first compute the second moment for gamma distribution:
+	\begin{align*}
+		E[X^2] &= \int_0^{\infty}x^2\cdot \frac{x^{\beta - 1}\lambda^{\beta}e^{-\lambda x}}{\Gamma(\beta)}dx = \int_0^{\infty}x^2\cdot \frac{(\lambda x)^{\beta - 1}e^{-\lambda x}}{\Gamma(\beta)}d\lambda x\\
+		&= \frac{1}{\lambda^2}\int_0^{\infty}\frac{(\lambda x)^{(\beta + 2) - 1}e^{-\lambda x}}{\Gamma(\beta)}d\lambda x = \frac{\Gamma(\beta + 2)}{\lambda^2\Gamma(\beta)}\\
+		&= \frac{\beta(\beta + 1)\Gamma(\beta)}{\lambda^2\Gamma(\beta)}\\
+		&= \frac{\beta^2 + \beta}{\lambda^2}
+	\end{align*}
+	So we now can compute the variance of gamma distribution as:
+	\begin{align*}
+		Var[X] &= E[X^2] - \Big(E[X]\Big)^2 = \frac{\beta^2 + \beta}{\lambda^2} - (\frac{\beta}{\lambda})^2\\
+		&= \frac{\beta^2 + \beta - \beta^2}{\lambda^2} = \frac{\beta}{\lambda^2}
+	\end{align*}
+	(iii) If $X \sim \text{lognormal}(\mu, \sigma^2)$, we have $ Y = \log(X) \sim N(\mu, \sigma^2).$, which also says that $X = e^{Y}$. Denote $M_Y(t) = E[e^{tY}]$ as the moment generating function of $Y$, since $Y \sim N(\mu, \sigma^2)$, we have:
+	\begin{align*}
+		M_Y(t) = E[e^{tY}] = e^{\mu t + \frac{1}{2}\sigma^2t^2}
+	\end{align*}
+	Thus we can compute the mean of $X$ as:
+	\begin{align*}
+		E[X] &= E[e^{Y}] = M_Y(1) = e^{\mu + \frac{1}{2}\sigma^2}
+	\end{align*}
+	We can also compute the second moment of $X$ as:
+	\begin{align*}
+		E[X^2] &= E[e^{2Y}] = M_Y(2) = e^{2\mu + \frac{1}{2}\sigma^2\cdot 4} = e^{2\mu + 2\sigma^2}
+	\end{align*}
+	So the variance of log normal distribution is:
+	\begin{align*}
+		Var[X] &= E[X^2] - \Big(E[X]\Big)^2 = e^{2\mu + 2\sigma^2} - e^{2\mu + \sigma^2}\\
+		&= e^{2\mu + \sigma^2}(e^{\sigma^2} - 1)
+	\end{align*}
+	$(iv)$ If $X \sim \text{log logistic}(\alpha, \lambda)$, we have $Y = \log(X) \sim logistic(\mu, \sigma)$, where $\alpha = \frac{1}{\sigma}$ and $\lambda = e^{-\frac{\mu}{\sigma}}$.\vskip 2mm
+	We denote by $M_Y(t) = E[e^{tY}]$ the moment generating function of $Y$, thus
+	\begin{align*}
+		M_Y(t) &= e^{\mu t}B(1 - \sigma t, 1 + \sigma t) \text{ for } \sigma t \in (-1, 1)
+	\end{align*}
+	Here $B(a, b)$ is the beta function defined as
+	\begin{align*}
+		B(a, b) &= \int_0^1 t^{a - 1}(1 - t)^{b - 1}d t
+	\end{align*}
+	So we can compute the mean of log logistic distribution as:
+	\begin{align*}
+		E[X] &= E[e^Y] = M_Y(1) = e^{\mu}B(1 - \sigma, 1 + \sigma) \text{ for } \sigma \in (0, 1)\\
+		&= \frac{1}{\lambda^{\frac{1}{\alpha}}}B(1 - \frac{1}{\alpha}, 1 + \frac{1}{\alpha}) \text{ for } \alpha > 1
+	\end{align*}
+	We comment without proof that
+	\begin{align*}
+		B(1 - t, 1 + t) &= \frac{\pi t}{\sin(\pi t)} = \pi t \csc(\pi t)
+	\end{align*}
+	We also solved from $\alpha = \frac{1}{\sigma}$ and $\lambda = e^{-\frac{\mu}{\sigma}}$ that:
+	\begin{align*}
+		&\ \lambda = e^{-\alpha\mu} \Longrightarrow e^{\mu} = \frac{1}{\lambda^{\frac{1}{\alpha}}}
+	\end{align*}
+	Plug this result into the computation above, we got
+	\begin{align*}
+		E[X] &= \frac{1}{\lambda^{\frac{1}{\alpha}}}\cdot \frac{\pi \csc(\frac{\pi}{\alpha})}{\alpha} = \frac{\pi\csc(\pi/\alpha)}{\alpha\lambda^{\frac{1}{\alpha}}} \text{ for }\alpha > 1
+	\end{align*}
+	Now we compute the second moment:
+	\begin{align*}
+		E[X^2] &= E[e^{2Y}] = M_Y(2) = e^{2\mu}B(1 - 2\sigma, 1 + 2\sigma) \text{ for }\sigma \in (0, \frac{1}{2})\\
+		&= \frac{1}{\lambda^{\frac{2}{\alpha}}}B(1 - \frac{2}{\alpha}, 1 + \frac{2}{\alpha}) \text{ for }\alpha > 2\\
+		&= \frac{2\pi\csc(2\pi/\alpha)}{\alpha\lambda^{\frac{2}{\alpha}}} \text{ for }\alpha > 2
+	\end{align*}
+	So the variance of log logistic distribution is:
+	\begin{align*}
+		Var[X] &= E[X^2] - \Big(E[X]\Big)^2 = \frac{2\pi\csc(2\pi/\alpha)}{\alpha\lambda^{\frac{2}{\alpha}}} - \Big(\frac{\pi\csc(\pi/\alpha)}{\alpha\lambda^{\frac{1}{\alpha}}}\Big)^2 \text{ for }\alpha > 2
+	\end{align*}
+	For part $(b)$:\vskip 2mm
+	(i): If $X \sim \exp(\lambda)$, we have its pdf and cdf:
+	\begin{align*}
+		f_X(x) &= \lambda e^{-\lambda x}\\
+		F_X(x) &= 1 - e^{-\lambda x}
+	\end{align*}
+	Now for $Y = \log (X)$, first consider the cdf:
+	\begin{align*}
+		F_Y(y) &= P(Y \leq y) = P(\log X \leq y) = P(X \leq e^y) = F_X(e^y)\\
+		&= 1 - e^{-\lambda e^y}
+	\end{align*}
+	So the pdf can be computed as:
+	\begin{align*}
+		f_Y(y) &= \frac{d}{dy}F_Y(y) = -e^{-\lambda e^y}\cdot (-\lambda e^y) = \lambda e^{y - \lambda e^y} \text{ for } y \in (-\infty, +\infty)
+	\end{align*}
+	(ii): If $X \sim Weibull(\alpha, \lambda)$, we know the pdf of $X$ is:
+	\begin{align*}
+		f_X(x) &= \alpha\lambda x^{\alpha - 1}e^{-\lambda x^{\alpha}}
+	\end{align*}
+	Let $Y = \log(X)$, then the cdf of $Y$ is:
+	\begin{align*}
+		F_Y(y) &= P(Y \leq y) = P(\log X \leq y) = P(X \leq e^y)
+	\end{align*}
+	Thus the pdf of $Y$ can be computed as:
+	\begin{align*}
+		f_Y(y) &= \frac{d}{dy}F_Y(y) = \frac{d}{dy}P(X \leq e^y) = \frac{d}{dy}F_X(e^y)\\
+		&= f_X(e^y)\cdot e^y = \alpha\lambda(e^y)^{\alpha - 1}\cdot e^{-\lambda (e^y)^{\alpha}}\cdot e^y\\
+		&= \alpha\lambda e^{\alpha y}\cdot e^{-\lambda e^{\alpha y}}
+	\end{align*}
+	(iii):When $X$ follows lognormal distribution, it means $Y = \log(X)$ follows normal distribution, so the pdf is:
+	\begin{align*}
+		f_Y(y)= \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2\sigma^2}(x - \mu)^2}
+	\end{align*}
+	(iv): When $X$ follows loglogistic distribution, $Y = \log(X)$ follows logistic distribution, so the pdf is
+	\begin{align*}
+		f_Y(y) &= \frac{e^{\frac{y- \mu}{\sigma}}}{\sigma\Big[1 + e^{\frac{y - \mu}{\sigma}}\Big]^2} \text{ for } y \in (-\infty, +\infty)
+	\end{align*}
+	For part $(c)$:\vskip 2mm
+	(i) Exercise 2.3:\vskip 2mm
+	\hskip 2cm For part $(a)$, the survival function for log-logistic distribution is 
+	\begin{align*}
+		S(x) = \frac{1}{1 + \lambda x^{\alpha}} = \frac{1}{1 + 0.01 x^{1.5}}
+	\end{align*}
+	So the $50, 100,$ and $150$ day survival probabilities for kidney transplantation in patiens are:
+	\begin{align*}
+		S(50) &= \frac{1}{1 + 0.01 \cdot 50^{1.5}} =0.22 \\
+		S(100) &=\frac{1}{1 + 0.01 \cdot 100^{1.5}} =0.09 \\
+		S(150) &= \frac{1}{1 + 0.01 \cdot 150^{1.5}} = 0.05\\
+	\end{align*}
+	\hskip 2cm For part $(b)$:\vskip 2mm
+	At the median time to death $x_m$ following a kidney transplant, we have
+	\begin{align*}
+		S(x_m) =  \frac{1}{1 + 0.01 x_m^{1.5}} = 0.5
+	\end{align*}
+	Solve the above equation:
+	\begin{align*}
+		&\ 1 + 0.01 x_m^{1.5} = 2 \Longrightarrow 0.01 x_m^{1.5} = 1\\
+		&\Longrightarrow x_m^{1.5} = 100\\
+		&\Longrightarrow x_m = 100^{\frac{2}{3}} \simeq 21.54
+	\end{align*}
+	\hskip 2cm For part $(c)$:\vskip 2mm
+	With log logistic distribution, we have a hazard rate as:
+	\begin{align*}
+		h(x) = \frac{\alpha x^{\alpha - 1}\lambda}{1 + \lambda x^{\alpha}} = \frac{1.5\cdot 0.01x^{0.5}}{1 + 0.01 x^{1.5}} = \frac{0.015 x^{0.5}}{1 + 0.01x^{1.5}}
+	\end{align*}
+	Consider the derivative of $h(x)$:
+	\begin{align*}
+		h'(x) &= \frac{0.015\cdot \frac{1}{2\sqrt{x}}(1 + 0.01 x^{1.5}) - 0.015 x^{0.5}\cdot 0.01\cdot 1.5\sqrt{x}}{(1 + 0.01 x^{1.5})^2}\\
+		&= \frac{\frac{0.015}{2\sqrt{x}} + \frac{0.00015}{2}x - (0.015)^2x}{(1 + 0.01 x^{1.5})^2} = \frac{\Big(\frac{0.00015}{2} - (0.015)^2\Big)x + \frac{0.015}{2\sqrt{x}}}{(1 + 0.01x^{1.5})^2}\\
+		&= \frac{-0.00015 x^{\frac{3}{2}} + 0.0075}{\sqrt{x}(1 + 0.01 x^{1.5})^2} = \frac{-0.00015(x^{\frac{3}{2}} - 50)}{\sqrt{x}(1 + 0.01 x^{1.5})^2}
+	\end{align*}
+	From the expression above, we see that $h'(x) > 0$ when $x^{\frac{3}{2}} <50$, and $h(x)$ is increasing. We also have $h'(x) < 0$ when $x^{\frac{3}{2}} > 50$, and $h(x)$ is decreasing. The critical point is when 
+	\begin{align*}
+		x^{\frac{3}{2}} = 50 \Longrightarrow x = 50^{\frac{2}{3}} \simeq 13.57
+	\end{align*}
+	The hazard rate changes from increasing to decreasing at $x = 50^{\frac{2}{3}} = 13.57$.\vskip 2mm
+	\hskip 2cm For part $(d)$:\vskip 2mm
+	The mean time to death is:
+	\begin{align*}
+		E[X] &= \frac{\pi\csc(\pi/\alpha)}{\alpha \lambda^{1/\alpha}} = \frac{\pi\csc(\pi/1.5)}{1.5\cdot (0.01)^{1/1.5}} \simeq 52.10
+	\end{align*}
+	(ii) Exercise 2.5:\vskip 2mm
+	\hskip 2cm For part $(a)$:\vskip 2mm
+	Denote time to death by $X$, then $X \sim lognormal(\mu, \sigma)$, and $Y = \log(X) \sim N(\mu, \sigma^2)$.\vskip 2mm
+	The mean time to death is:
+	\begin{align*}
+		E[X] &= \exp(\mu + 0.5\sigma^2) = \exp(3.177 + 0.5\times 2.084^2) =210.30
+	\end{align*}
+	The median time to death $x_m$ is computed as following:
+	\begin{align*}
+		&\ P(X > x_m) = P(Y > \log(x_m)) = P(\frac{Y - \mu}{\sigma} > \frac{\log(x_m) - \mu}{\sigma})= P(Z > \frac{\log(x_m) - \mu}{\sigma}) = \frac{1}{2}
+	\end{align*}
+	Here $Z$ denote the standard normal random variable.\vskip 2mm
+	We solve the equation:
+	\begin{align*}
+		&\ \frac{\log(x_m) - \mu}{\sigma} = \Phi(1 - 0.5) = \Phi(0.5) = 0\\
+		&\Longrightarrow \log(x_m) = \mu = 3.177\\
+		&\Longrightarrow x_m = \exp(3.177) = 23.97
+	\end{align*}
+	So the median time to death is $23.97$.\vskip 2mm
+	\hskip 2cm For part $(b)$:\vskip 2mm
+	We have the survival function as:
+	\begin{align*}
+		S(x) &= 1 - \Phi(\frac{\log(x) - \mu}{\sigma}) = 1 - \Phi(\frac{\log(x) - 3.177}{2.084})
+	\end{align*}
+	So the probability an individual survives $100, 200$ and $300$ days following a transplant are:
+	\begin{align*}
+		S(100) &= 1 -\Phi(\frac{\log(100) - 3.177}{2.084}) = 0.25 \\
+		S(200) &= 1 - \Phi(\frac{\log(200) - 3.177}{2.084}) = 0.15\\
+		S(300) &= 1 - \Phi(\frac{\log(300) - 3.177}{2.084}) = 0.11
+	\end{align*}
+	\hskip 2cm For part $(c)$:\vskip 2mm
+	The hazard rate of $X$ is:
+	\begin{align*}
+		h(x) &= \frac{f(x)}{S(x)} = \frac{\exp\Big[-\frac{1}{2\sigma^2}(\log(x) - \mu)^2\Big]}{x(2\pi)^{\frac{1}{2}}\sigma\Big(1 - \Phi\Big[\frac{\log(x) - \mu}{\sigma}\Big]\Big)}
+	\end{align*}
+	We have the following plot:
+	\begin{center}
+		\includegraphics[width = 10cm]{q2_2_5c.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 10cm]{q2_2_5c1.jpg}
+	\end{center}
+	We see that given $\mu = 3.177, \sigma = 2.084$, the hazard rate of log normal distribution first increase and then decrease over the time.\vskip 2mm
+	(iii) Exercise 2.7:\vskip 2mm
+	\hskip 2cm For part $(a)$:\vskip 2mm
+	The survival function of gamma distribution is:
+	\begin{align*}
+		S(x) &= 1 - I(\lambda x, \beta) = 1 - \frac{ \int_0^{\lambda x}u^{\beta - 1}\exp(-u) d u}{\Gamma(\beta)}\\
+		&=  1 - \frac{ \int_0^{0.2 x}u^2\exp(-u) d u}{\Gamma(3)}
+	\end{align*}
+	Notice that we have:
+	\begin{align*}
+		\int u^2e^{-u} du &= -\int u^2 d e^{-u} = -u^2 e^{-u}+ 2\int u e^{-u}du = -u^2 e^{-u} - 2\int u d e^{-u} \\
+		&= -u^2e^{-u} - 2ue^{-u} + 2\int e^{-u}du = -u^2e^{-u} - 2ue^{-u} - 2e^{-u} + \text{constant}\\
+		&= -e^{-u}(u^2 + 2u + 2) + \text{constant}
+	\end{align*}
+	So we can explicitly compute our survival function as:
+	\begin{align*}
+		S(x) &= 1 - \frac{-e^{-u}(u^2 + 2u + 2)\Big\vert_0^{0.2x}}{2}\\
+		&= 1 - \frac{-e^{-0.2x}(0.04x^2 + 0.4x + 2) + 2}{2}\\
+		&= \frac{1}{2}e^{-0.2x}(0.04x^2 + 0.4x + 2)
+	\end{align*}
+	So the probability that a rate will survive beyond age $18$ months is:
+	\begin{align*}
+		S(18) &=  \frac{1}{2}e^{-0.2\times 18}(0.04\times 18^2 + 0.4\times 18 + 2) = 0.30
+	\end{align*}
+	\hskip 2cm part $(b)$:\vskip 2mm
+	The probability that a rat will die in its first year of life (or not survive beyond 12 months) is:
+	\begin{align*}
+		1 - S(12) &= 1 - \frac{1}{2}e^{-0.2\times 12}(0.04\times 12^2 + 0.4\times 12 + 2) = 0.43
+	\end{align*}
+	\hskip 2cm part $(c)$:\vskip 2mm
+	The mean lifetime for this species of rats is:
+	\begin{align*}
+		E[X] &= \frac{\beta}{\lambda} = \frac{3}{0.2} = 15
+	\end{align*}
+	So the mean life time is $15$ months.
+\end{sol}
+
+Question $\# 3$:
+\begin{sol}
+	To answer textbook qustion $\# 3.3$:\vskip 2mm
+	For part $(a)$:\vskip 2mm
+	a rat who had a palpable tumor at the first examination at 6 weeks after incubation with DMBA. So we know the palpable tumor happenes before at 6 weeks however the exact time we do not know. So this is left censoring.\vskip 2mm
+	For part $(b)$:\vskip 2mm
+	For a rat that survived the study without having any tumors, if it ever develops tumors at all, it will be sometime after the end of study, and the exact time we do not know. So this is right censored.\vskip 2mm
+	For part $(c)$:\vskip 2mm
+	For a rat which did not have a tumor at week $12$ but which had a tumor at week $13$ after inturbation with DMBA, it happens between two time point but the exact time we do not know, so this is an interval censoring case.\vskip 2mm
+	For part $(d)$:\vskip 2mm
+	A rat died without tumor present and death was unrelated to the occurrence of cancer, so if the rat had lived and developed cancer, it will be sometime after the death time and the exact time of which we do not know. Thus this is a right censoring case. Since the study ending time is different than planned, we consider this as the generalized type I censoring. Since death time is independent from the time of developing tumor, this is also a random censoring.\vskip 2mm
+	For part $(e)$:\vskip 2mm
+	The time is measured in days. Since 1 week is 7 days, so $C_l = 6 \times 7 = 42$. For the rat in part $(a)$, the likelihood is then:
+	\begin{align*}
+		L_a &= 1 - S(C_l) = 1 - S(42)
+	\end{align*}
+	For the rat in part $(b)$, $C_r = 7 \times (6 + 14) = 140$, so the likelihood is then:
+	\begin{align*}
+		L_b &= S(C_r) = S(140)
+	\end{align*}
+	For the rat in part $(c)$, $C_l = 7 \times (6 + 12) = 126$ and $C_r =7 \times (6 + 13) = 133$
+	\begin{align*}
+		L_c &= S(126) - S(133)
+	\end{align*}
+	and for the rat in part $(d)$, $C_r= 37$ the likelihood is:
+	\begin{align*}
+		L_d &= S(37)
+	\end{align*}
+	So the total likelihood for this portion of the study is:
+	\begin{align*}
+		L \propto L_a \ast L_b \ast L_c \ast L_d = (1 - S(42))S(140)\Big(S(126) - S(133)\Big)S(37)
+	\end{align*}
+	To answer textbook question $\#3.6$:\vskip 2mm
+	For part $(a)$:\vskip 2mm
+	for exponentil distribution with parameter $\lambda$, we know that
+	\begin{align*}
+		S(x) &= e^{-\lambda x}\\
+		h(x) &= \lambda
+	\end{align*}
+	For relapse case, we have two different types:\vskip 2mm
+	Patient $1-6$ experienced the relapse event, so their likelihood is $f(t_i), i = 1, 2, 3, 4, 5, 6$. Patient $7-10$ were free of relapse by the end of study, so it is the right censoring case, so their likelihood is $C_r(t_i)$. Hence the likelihood for relpase is:
+	\begin{align*}
+		L &\propto f(5)\times f(8) \times f(12) \times f(24) \times f(32) \times f(17) \times S(16) \times S(17) \times S(19) \times S(30)\\
+		&= \lambda^6 e^{-\lambda(5 + 8 + 12 + 24 + 32 + 17)} \times e^{-\lambda(16 + 17 + 19 + 30)}\\
+		&= \lambda^6 e^{-\lambda(98 + 82)} = \lambda^6 e^{-180\lambda}
+	\end{align*}
+	For part $(b)$:\vskip 2mm
+	For time to death in relapse case, patient $1, 2, 3, 5$ experienced death event and patient $4, 6, 7-10$ are right censored.\vskip 2mm
+	So the likelihood is:
+	\begin{align*}
+		L &\propto f(11) \times f(12) \times f(15) \times f(45) \times S(33) \times S(28) \times S(16) \times S(17) \times S(19) \times S(30) \\
+		&= \alpha^4\theta^4(11 \times 12 \times 15 \times 45 )^{\alpha - 1}\exp\Big(-\theta(11^{\alpha} +12^{\alpha} + 15^{\alpha} + 45^{\alpha})\Big)\\
+		&\ \hskip 1cm \times \exp\Big[-\theta\Big(33^{\alpha} + 28^{\alpha} + 16^{\alpha} + 17^{\alpha} + 19^{\alpha} + 30^{\alpha}\Big)\Big]\\
+		&= \alpha^4\theta^4 \times 89,100^{\alpha - 1}\exp\Big[-\theta\Big(11^{\alpha} +12^{\alpha} + 15^{\alpha} + 45^{\alpha} + 33^{\alpha} + 28^{\alpha} + 16^{\alpha} + 17^{\alpha} + 19^{\alpha} + 30^{\alpha}\Big)\Big]
+	\end{align*}
+	For part $(c)$:\vskip 2mm
+	Since we were only allowed to observe a patients death time if the patient relapsed, so this is a left truncated situation.\vskip 2mm
+	After the truncation we only use data from patient $1-6$.\vskip 2mm
+	So the likelihood is:
+	\begin{align*}
+		L(\theta, \alpha) &\propto \frac{f(11)}{S(5)}\cdot \frac{f(12)}{S(8)}\cdot \frac{f(15)}{S(12)}\cdot \frac{S(33)}{S(24)}\cdot \frac{f(45)}{S(32)}\cdot \frac{S(28)}{S(17)}\\
+		&=  \frac{\alpha^4\theta^4(11\times 12\times15\times45)^{\alpha - 1}\exp\Big(-\theta(11^{\alpha} + 12^{\alpha} + 15^{\alpha} + 45^{\alpha})\Big)}{\exp\Big[-\theta\Big(5^{\alpha} + 8^{\alpha} + 12^{\alpha} + 32^{\alpha}\Big)\Big]}\cdot \frac{\exp\Big[-\theta(33^{\alpha} + 28^{\alpha})\Big]}{\exp\Big[-\theta\Big(24^{\alpha} + 17^{\alpha}\Big)\Big]}\\
+		&= \frac{\alpha^4\theta^4(89,100)^{\alpha - 1}\exp\Big(-\theta(11^{\alpha} + 15^{\alpha} + 28^{\alpha} + 33^{\alpha} + 45^{\alpha})\Big)}{\exp\Big[-\theta\Big(5^{\alpha} + 8^{\alpha} + 17^{\alpha} + 24^{\alpha} + 32^{\alpha}\Big)\Big]}
+	\end{align*}
+	We conditioned on the left truncation situation that is why we have those survival functions on the denominator, and also we did not use those subjects that did not go through relapse.
+\end{sol}
+
+Question $\# 4$:
+\begin{sol}
+	For part $(a)$:\vskip 2mm
+	We construct the data lay out for each group:\vskip 2mm
+	For the group of AZT $+$ zalcitabine (ddC):
+	\begin{tabular}{cccc}
+		\hline
+		$t_i$&$e_i$&$c_i$&$n_i$\\
+		\hline
+		$0$& $0$ & $1$ & $17$\\
+		$6$& $1$ & $0$ & $16$\\
+		$11$ & $1$ & $0$ & $15$\\
+		$12$ & $1$ & $0$ & $14$\\
+		$32$ & $1$ & $0$ & $13$\\
+		$35$ & $1$ & $1$ & $12$\\
+		$39$ & $1$ & $0$ & $10$\\
+		$45$ & $1$ & $0$ & $9$\\
+		$49$ & $1$ & $0$ & $8$\\
+		$75$ & $1$ & $0$ & $7$\\
+		$80$ & $1$ & $0$ & $6$\\
+		$84$ & $1$ & $0$ & $5$\\
+		$85$ & $1$ & $0$ & $4$\\
+		$87$ & $1$ & $0$ & $3$\\
+		$102$ & $1$ & $1$ & $2$\\
+		Totals& $14$ & $3$ & $|$\\
+	\end{tabular}
+	\vskip 2mm
+	For the group of AZT + (ddC) + saquinivir:
+	\begin{tabular}{cccc}
+		\hline
+		$t_i$& $e_i$ & $c_i$ & $n_i$\\
+		\hline
+		$0$ & $0$ & $0$ & $17$\\
+		$2$ & $1$ & $0$ & $17$\\
+		$3$ & $1$ & $0$ & $16$\\
+		$4$ & $1$ & $0$ & $15$\\
+		$12$ & $1$ & $0$ & $14$\\
+		$22$ & $1$ & $0$ & $13$\\
+		$48$ & $1$ & $2$ & $12$\\
+		$80$& $1$ & $0$ & $9$\\
+		$85$& $1$ & $0$ & $8$\\
+		$90$& $1$ & $1$ & $7$\\
+		$160$& $1$ & $0$ & $5$\\
+		$171$& $1$ & $0$& $4$\\
+		$180$& $1$& $1$& $3$\\
+		$238$& $1$& $0$& $1$\\
+		Totals& $13$& $4$& $|$\\
+	\end{tabular}
+	\vskip 2mm
+	Now we compute the Kaplan-Meier estimates for each group:\vskip 2mm
+	For the AZT $+$ zalcitabine (ddC) group:\vskip 2mm
+	\begin{align*}
+		\hat{C}(0) &= \frac{17}{17} = 1, \hat{S}(0) = 1\\
+		\hat{C}(6) &= \frac{15}{16}, \hat{S}(6) = 1 \cdot \frac{15}{16}= 0.9375\\
+		\hat{C}(11) &= \frac{14}{15}, \hat{S}(11) = \hat{S(6)}\cdot \frac{14}{15} = 0.875\\
+		\hat{C}(12) &= \frac{13}{14}, \hat{S}(12) = \hat{S}(11)\cdot \frac{13}{14} = 0.8125\\
+		\hat{C}(32) &= \frac{12}{13}, \hat{S}(32) = \hat{S}(12)\cdot \frac{12}{13} = 0.75\\
+		\hat{C}(35) &= \frac{11}{12}, \hat{S}(35) = \hat{S}(32) \cdot \frac{11}{12} = 0.6875\\
+		\hat{C}(39) &= \frac{9}{10}, \hat{S}(39) = \hat{S}(35) \cdot \frac{9}{10} = 0.61875\\
+		\hat{C}(45) &= \frac{8}{9}, \hat{S}(45) = \hat{S}(39)\cdot \frac{8}{9} =0.55\\
+		\hat{C}(49) &= \frac{7}{8}, \hat{S}(49) = \hat{S}(45)\cdot \frac{7}{8} = 0.48125\\
+		\hat{C}(75) &= \frac{6}{7}, \hat{S}(75)= \hat{S}(49) \cdot \frac{6}{7} =  0.4125\\
+		\hat{C}(80) &= \frac{5}{6}, \hat{S}(80) = \hat{S}(75)\cdot \frac{5}{6} = 0.34375\\
+		\hat{C}(84) &= \frac{4}{5}, \hat{S}(84) = \hat{S}(80) \cdot \frac{4}{5} = 0.275\\
+		\hat{C}(85) &= \frac{3}{4}, \hat{S}(85) = \hat{S}(84) \cdot \frac{3}{4} = 0.20625\\
+		\hat{C}(87) &= \frac{2}{3}, \hat{S}(87) = \hat{S}(85) \cdot \frac{2}{3} = 0.1375\\
+		\hat{C}(102) &= \frac{1}{2}, \hat{S}(102) = \hat{S}(87)\cdot \frac{1}{2} = 0.06875
+	\end{align*}
+	We incorporate this information into the previous data layout to get:\vskip 2mm
+		\begin{center}
+		\begin{tabular}{ccccccc}
+		\hline
+		$t_i$& $e_i$ & $c_i$ & $n_i$ & $\hat{S}(t_{j - 1})$ & $\hat{C}(t_{j })$ & $\hat{S}(t_j)$  \\
+		\hline
+		$0$& $0$ & $1$ & $17$& - & $\frac{17}{17}$ & $1$\\
+		$6$& $1$ & $0$ & $16$& $1$ & $\frac{15}{16}$ & $0.9375$\\
+		$11$ & $1$ & $0$ & $15$ & $0.9375$ & $\frac{14}{15}$ & $0.875$\\
+		$12$ & $1$ & $0$ & $14$ & $0.875$ & $\frac{13}{14}$ & $0.8125$\\
+		$32$ & $1$ & $0$ & $13$ & $0.8125$ & $\frac{12}{13}$ & $0.75$\\
+		$35$ & $1$ & $1$ & $12$ & $0.75$ & $\frac{11}{12}$ & $0.6875$\\
+		$39$ & $1$ & $0$ & $10$ & $0.6875$ & $\frac{9}{10}$ & $0.61875$\\
+		$45$ & $1$ & $0$ & $9$ & $0.61875$ & $\frac{8}{9}$ & $0.55$\\
+		$49$ & $1$ & $0$ & $8$ & $0.55$ & $\frac{7}{8}$ & $0.48125$\\
+		$75$ & $1$ & $0$ & $7$ & $0.48125$ & $\frac{6}{7} $ & $0.4125$\\
+		$80$ & $1$ & $0$ & $6$ & $0.4125$ & $\frac{5}{6}$& $0.34375$\\
+		$84$ & $1$ & $0$ & $5$ & $0.34375$ & $\frac{4}{5}$& $0.275$\\
+		$85$ & $1$ & $0$ & $4$ & $0.275$& $\frac{3}{4}$ & $0.20625$\\
+		$87$ & $1$ & $0$ & $3$ & $0.20625$ & $\frac{2}{3}$ & $0.1375$\\
+		$102$ & $1$ & $1$ & $2$ & $0.1375$ & $\frac{1}{2}$ & $0.06875$\\
+		Totals& $14$ & $3$ & $|$ &&&\\
+	\end{tabular}
+	\end{center}
+	Similarly for the AZT $+$ zalcitabine (ddC) $+$ saquinivir group:\vskip 2mm
+	\begin{align*}
+		\hat{C}(0) &= \frac{17}{17} = 1, \hat{S}(0) = 1\\
+		\hat{C}(2) &= \frac{16}{17}, \hat{S}(2) = 1\cdot \frac{16}{17} = 0.94\\
+		\hat{C}(3) &= \frac{15}{16}, \hat{S}(3) = \hat{S}(2)\cdot \frac{15}{16} = 0.88\\
+		\hat{C}(4) &= \frac{14}{15}, \hat{S}(4) = \hat{S}(3) \cdot \frac{14}{15} = 0.82\\
+		\hat{C}(12) &= \frac{13}{14}, \hat{S}(12) = \hat{S}(4)\cdot \frac{13}{14} = 0.765\\
+		\hat{C}(22) &= \frac{12}{13}, \hat{S}(22) = \hat{S}(12)\cdot \frac{12}{13} = 0.71\\
+		\hat{C}(48) &= \frac{11}{12}, \hat{S}(48) = \hat{S}(22) \cdot \frac{11}{12} = 0.65\\
+		\hat{C}(80) &= \frac{8}{9}, \hat{S}(80) = \hat{S}(48)\cdot \frac{8}{9} =0.58\\
+		\hat{C}(85) &= \frac{7}{8}, \hat{S}(85) = \hat{S}(80)\cdot \frac{7}{8} =0.503\\
+		\hat{C}(90) &= \frac{6}{7}, \hat{S}(90) = \hat{S}(85)\cdot \frac{6}{7} = 0.43\\
+		\end{align*}
+	\begin{align*}
+		\hat{C}(160) &= \frac{4}{5}, \hat{S}(160) = \hat{S}(90)\cdot \frac{4}{5} = 0.345\\
+		\hat{C}(171) &= \frac{3}{4}, \hat{S}(171) = \hat{S}(160)\cdot \frac{3}{4} = 0.259\\
+		\hat{C}(180) &= \frac{2}{3}, \hat{S}(180) = \hat{S}(171)\cdot \frac{2}{3} = 0. 17\\
+		\hat{C}(238) &= 0, \hat{S}(238) = 0
+	\end{align*}
+	Incorporate this informatino into the data layout above, we got:
+	For the group of AZT + (ddC) + saquinivir:
+	\begin{center}
+	\begin{tabular}{ccccccc}
+		\hline
+		$t_i$& $e_i$ & $c_i$ & $n_i$ &$\hat{S}(t_{j - 1})$&$\hat{C}(t_j)$& $\hat{S}(t_j)$\\
+		\hline
+		$0$ & $0$ & $0$ & $17$ &-& 1 & 1\\
+		$2$ & $1$ & $0$ & $17$ & $1$& $\frac{16}{17}$ & $0.94$\\
+		$3$ & $1$ & $0$ & $16$ & $0.94$ & $\frac{15}{16}$ & $0.88$\\
+		$4$ & $1$ & $0$ & $15$ & $0.88$ & $\frac{14}{15}$ & $0.82$\\
+		$12$ & $1$ & $0$ & $14$ & $0.82$ & $\frac{13}{14}$ & $0.765$\\
+		$22$ & $1$ & $0$ & $13$ & $0.765$ & $\frac{12}{13}$ & $0.71$\\
+		$48$ & $1$ & $2$ & $12$ & $0.71$ &  $\frac{11}{12}$ & $0.65$\\
+		$80$& $1$ & $0$ & $9$ & $0.65$ & $\frac{8}{9}$ & $0.58$\\
+		$85$& $1$ & $0$ & $8$  & $0.58$ & $\frac{7}{8}$ & $0.503$\\
+		$90$& $1$ & $1$ & $7$ & $0.503$ & $\frac{6}{7}$ & $0.43$\\
+		$160$& $1$ & $0$ & $5$ & $0.43$ & $\frac{4}{5}$ & $0.345$\\
+		$171$& $1$ & $0$& $4$ & $0.345$ & $\frac{3}{4}$ & $0.259$\\
+		$180$& $1$& $1$& $3$ & $0.259$ & $\frac{2}{3}$ & $0.17$\\
+		$238$& $1$& $0$& $1$ & $0.17$ & $0$ & $0$\\
+		Totals& $13$& $4$& $|$\\
+	\end{tabular}
+	\end{center}
+	The complete KM estimates for each group and for any $t$ betwee the starting time and the largest time is a step function whose values are defined by the values of $\hat{S}(t_j)$  in the two tables above.\vskip 2mm
+	Based on the two tables above:\vskip 2mm
+	The median survival time(point estimate) for group AZT $+$ zalcitabine (ddC) is $t = 49$ since $\hat{S}(45) = 0.55$ and $\hat{S}(49) = 0.48125$.\vskip 2mm
+	The median survival time(point estimate) for group AZT + (ddC) + saquinivir is $t = 90$ since $\hat{S}(85) = 0.503$ and $\hat{S}(90) = 0.43$.\vskip 2mm
+	I would not feel comfortable reporting the mean survival time for group AZT $+$ ddc because there is censoring time greater than the largest event time, so the estimated mean survival time will be biased downward.\vskip 2mm
+	However we can report the mean survival timefor the second group AZT $+$ ddc $+$ saquinivir.\vskip 2mm
+	For part $(b)$:\vskip 2mm
+	We run the following SAS code to verify that we got the correct Kaplan-Meier estimates in part $(a)$:\vskip 2mm
+	\begin{center}
+		\includegraphics[width = 12cm]{q4b.jpg}
+	\end{center}
+	Then we got the Kaplan Meier estimates for group AZT $+$ ddc as the following:
+	\begin{center}
+		\includegraphics[width = 10cm]{q4b1.jpg}
+	\end{center}
+	We also have the Kaplan Meier estimates for group AZT $+$ ddc $+$ saquinivir as :
+	\begin{center}
+		\includegraphics[width = 10cm]{q4b2.jpg}
+	\end{center}
+	Compare with the manually computed result in part $(a)$, they do match.\vskip 2mm
+	For part $(c)$:\vskip 2mm
+	We give the following SAS code:
+	\begin{center}
+		\includegraphics[width = 12cm]{q4c1.jpg}
+	\end{center}
+	The first proc lifetest gives the following out put by group for the cumulative hazard fuction estimate (based on Nelson Aalen):\vskip 2mm
+	For group AZT $+$ ddc:
+	\begin{center}
+		\includegraphics[width = 12cm]{q4c2.jpg}
+	\end{center}
+	For group AZT $+$ ddc + saquinivir:
+	\begin{center}
+		\includegraphics[width = 12cm]{q4c3.jpg}
+	\end{center}
+	The second proc lifetest gives a plot of comparison between the cumulative hazard function estimate acquired from product limit (Kaplan Meier) and from Nelson-Aalen(N-A):
+	\begin{center}
+		\includegraphics[width = 14cm]{q4c4.jpg}
+	\end{center}
+	and as expected we see that in both groups we have $\hat{H}(t) \geq \tilde{H}(t)$, this is because we have:
+	\begin{align*}
+		\exp[-\hat{H}(t)] = \hat{S}(t) = \prod_{t_i \leq t}\Big[1 - \frac{d_i}{Y_i}\Big] \leq \prod_{t_i \leq t}\exp\Big[-\frac{d_i}{Y_i}\Big] = \exp[-\sum_{t_i \leq t}\frac{d_i}{Y_i}] = \exp[-\tilde{H}(t)] = \tilde{S}(t)
+	\end{align*}
+	which leads to
+	\begin{align*}
+		-\hat{H}(t) \leq -\tilde{H}(t)
+	\end{align*}
+	and hence
+	\begin{align*}
+		\hat{H}(t) \geq  \tilde{H}(t)
+	\end{align*}
+	For part $(d)$:\vskip 2mm
+	We give the following SAS code to produce life-table estimate of the survival function and to plot the life table estimates of the hazard function:
+	\begin{center}
+		\includegraphics[width = 14cm]{q4d1.jpg}
+	\end{center}
+	partiularly the width = 60  option specify that the estimate is based on interval width of $60$ days.\vskip 2mm
+	For group AZT + ddc we have the following output,  and among which the survival column gives the life table estimate for survival function based on interval width of $60$ days.
+	\begin{center}
+		\includegraphics[width = 14cm]{q4d2.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{q4d3.jpg}
+	\end{center}
+	The hazard rate reaches a peak but then decrease with respect to the time, indicating the drug resistance later on and less efficacy over long time.\vskip 2mm
+	For group AZT + ddc + saquivinir,we have the following output,
+	\begin{center}
+		\includegraphics[width = 14cm]{q4d4.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{q4d5.jpg}
+	\end{center}
+	the hazard rate keep increasing later on, indicates a long term efficancy and less of a drug resistance\vskip 2mm
+	For part $(e)$:\vskip 2mm
+	For example, if we would like to build confidence interval under linear transformation, and sketch the confidence band of both equal probaiblity and hall wellner type, we have the following SAS code:
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e1.jpg}
+	\end{center}
+	We have the following plots for each group:
+	\begin{center}
+		\includegraphics[width = 7cm]{q4e2.jpg}\includegraphics[width = 7cm]{q4e3.jpg}
+	\end{center}
+	and the following table of confidence intervals
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e4.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e5.jpg}
+	\end{center}
+	We can change the option of confidence type, so for log-log transformation, we have
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e6.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 7cm]{q4e7.jpg}\includegraphics[width = 7cm]{q4e8.jpg}
+	\end{center}
+	and
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e9.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e10.jpg}
+	\end{center}
+	For arcsin-square root transformation, we have 
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e11.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 7cm]{q4e12.jpg}\includegraphics[width = 7cm]{q4e13.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e14.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{q4e15.jpg}
+	\end{center}
+\end{sol}
+
+Question $\# 5$:
+\begin{sol}
+	For part $(a)$, we have the number of the subjects at risk as a function of age as following:
+	\begin{center}	
+		\begin{tabular}{ccccc}
+			age & entry & exit & risk set $(Y_i)$ & $d_i$\\
+			\hline
+			$58$ & $2$ & $0$ & $2$  & $0$\\
+			$59$ & $1$ & $0$ & $3$ & $0$\\
+			$60$ & $2$ & $1$ & $5$ & $1$\\
+			$61$ & $2$ & $0$ & $6$ & $0$\\
+			$62$ & $3$ & $1$ & $9$ & $1$\\
+			$63$ & $2$ & $1$ & $10$ & $1$\\
+			$64$ & $1$ & $0$ & $10$ & $0$\\
+			$65$ & $0$ & $2$ & $10$ & $2$\\
+			$66$ & $2$ & $1$ & $10$ & $1$\\
+			$67$ & $3$ & $0$ & $12$ & $0$\\
+			$68$ & $1$ & $2$ & $13$ & $2$\\
+			$69$ & $3$ & $4$ & $14$ & $2$\\
+			$70$ & $3$ & $2$ & $13$ & $2$\\
+			$71$ & $1$ & $2$ & $12$ & $2$\\
+			$72$ & $2$ & $3$ & $12$ & $2$\\
+			$73$ & $2$ & $2$ & $11$ & $1$\\
+			$74$ & $0$ & $2$ & $9$ & $1$\\
+			$75$ & $0$ & $0$ & $7$ & $0$\\
+			$76$ & $0$ & $2$ & $7$ & $1$\\
+			$77$ & $0$ & $1$ & $5$ & $1$\\
+			$78$ & $0$ & $1$ & $4$ & $0$\\
+			$79$ & $0$ & $2$ & $3$ & $0$\\
+			$80$ & $0$ & $1$ & $1$ & $0$\\
+			$81$ & $0$ & $0$ & $0$ & $0$\\
+		\end{tabular}
+	\end{center}
+	For part $(b)$:\vskip 2mm
+	The conditional survival function for a diabetic who has survived to age $60$ is:
+	\begin{align*}
+		S_{60}(t)&= P(X > t|X \geq 60)\\
+	\end{align*}
+	So the estimate is:
+	\begin{align*}
+		\hat{S}_{60}(t) &= \prod_{60 \leq t_i \leq t}\Big[1 - \frac{d_i}{Y_i}\Big], t \geq 60
+	\end{align*}
+	we have:
+	\begin{align*}
+		\hat{S}_{60}(t) &= 1 -  \frac{1}{5} = 0.8   \text{ if }60 \leq t < 62\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(60)\cdot (1 - \frac{1}{9}) = 0.71 \text{ if } 62 \leq t < 63\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(62)\cdot (1 - \frac{1}{10}) = 0.64 \text{ if } 63 \leq t <65\\
+		\hat{S}_{60}(t)&= \hat{S}_{60}(63) \cdot (1 - \frac{2}{10}) = 0.512 \text{ if }65 \leq t < 66\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(65)\cdot (1 - \frac{1}{10}) = 0.4608 \text{ if }66 \leq t < 68\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(66) \cdot (1 - \frac{2}{13}) = 0.39 \text{ if }68 \leq t < 69\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(68)\cdot (1 - \frac{2}{14}) = 0.334 \text{ if } 69 \leq t < 70\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(69)\cdot (1 - \frac{2}{13}) = 0.28\text{ if } 70 \leq t < 71\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(70)\cdot (1 - \frac{2}{12}) = 0.236 \text{ if }71 \leq t < 72\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(71) \cdot (1 - \frac{2}{12}) = 0.196\text{ if }72 \leq t < 73\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(72)\cdot (1 - \frac{1}{11}) = 0.179 \text{ if } 73 \leq t < 74\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(73) \cdot (1 - \frac{1}{9}) = 0.159 \text{ if } 74 \leq t < 76\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(74) \cdot (1 - \frac{1}{7})= 0.136 \text{ if }76 \leq t < 77\\
+		\hat{S}_{60}(t) &= \hat{S}_{60}(76)\cdot  (1 - \frac{1}{5}) = 0.109 \text{ if } t\geq 77
+	\end{align*}
+	For part $(c)$:\vskip 2mm
+	Similar to part $(b)$, we have
+	\begin{align*}
+	`S_{70}(t)&= P(X > t|X \geq 60)
+	\end{align*}
+	So the estimate is:
+	\begin{align*}
+		\hat{S}_{70}(t) &= \prod_{70 \leq t_i \leq t}\Big[1 - \frac{d_i}{Y_i}\Big], t \geq 70
+	\end{align*}
+	We have:
+	\begin{align*}
+		\hat{S}_{70}(t) &= (1 - \frac{2}{13}) = 0.846 \text{ if } 70 \leq t < 71\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(70)\cdot (1 - \frac{2}{12}) = 0.7051 \text{ if } 71 \leq t < 72\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(71)\cdot (1 - \frac{2}{12}) = 0.5876 \text{ if } 72 \leq t < 73\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(72)\cdot (1 - \frac{1}{11}) = 0.534 \text{ if } 73 \leq t < 74\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(73) \cdot (1 - \frac{1}{9}) = 0.4748 \text{ if } 74 \leq t  < 76\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(74) \cdot (1 - \frac{1}{7})  = 0.407\text{ if }76 \leq t < 77\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(76) \cdot (1 - \frac{1}{5}) = 0.3256 \text{ if } t \geq 77
+	\end{align*}
+	For part $(d)$, if we ignore the left truncation and simply treat the data as right censored, we would just simply ignore the entry time, and pretend that everyone starts from age $0$. So the relationship between age and risk set becomes:
+	\begin{center}
+		\begin{tabular}{cccc}
+			age&exit&risk set $(Y_i)$ & event $(e_i)$\\
+			\hline
+			$60$ & $1$ & $30$ & $1$\\
+			$62$ & $1$ & $29$ & $1$\\
+			$63$ & $1$ & $28$ & $1$\\
+			$65$ & $2$ & $27$ & $2$\\
+			$66$ & $1$ & $25$ & $1$\\
+			$68$ & $2$ & $24$ & $2$\\
+			$69$ & $4$ & $22$ & $2$\\
+			$70$ & $2$ & $18$ & $2$\\
+			$71$ & $2$ & $16$ & $2$\\
+			$72$ & $3$ & $14$ & $2$\\
+			$73$ & $2$ & $11$ & $1$\\
+			$74$ & $2$ & $ 9$ & $1$\\
+			$76$ & $2$ & $ 7$ & $1$\\
+			$77$ & $1$ & $ 5$ & $1$\\
+		\end{tabular}
+		\end{center}
+		So we have the estimate for survival function conditional on age greater or equal to $60$:
+		\begin{align*}
+			\hat{S}_{60}(t) &= (1 - \frac{1}{30}) = 0.97 \text{ if } 60 \leq t < 62\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(60)\cdot (1 - \frac{1}{29}) = 0.93 \text{ if }62 \leq t < 63\\
+			\hat{S}_{60}(t) &=\hat{S}_{60}(62)\cdot (1 - \frac{1}{28}) =  0.9 \text{ if } 63 \leq t < 65\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(63)\cdot (1 - \frac{2}{27}) = 0.833\text{ if } 65 \leq t < 66\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(65)\cdot (1 - \frac{1}{25}) = 0.8 \text{ if } 66 \leq t < 68\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(66)\cdot (1 - \frac{2}{24}) = 0.733 \text{ if } 68 \leq t< 69\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(68)\cdot (1 - \frac{2}{22}) = 0.667 \text{ if }69 \leq t < 70\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(69) \cdot (1 - \frac{2}{18}) = 0.593 \text{ if } 70 \leq t < 71\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(70)\cdot (1 - \frac{2}{16}) = 0.5185 \text{ if } 71 \leq t < 72\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(71)\cdot (1 - \frac{2}{14}) = 0.444 \text{ if }72 \leq t < 73\\
+			\hat{S}_{60}(t)&= \hat{S}_{60}(72)\cdot (1 - \frac{1}{11}) = 0.404 \text{ if } 73 \leq t < 74\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(73)\cdot (1 - \frac{1}{9}) =0.359 \text{ if }74 \leq t < 76\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(74)\cdot (1 - \frac{1}{7}) = 0.3078 \text{ if }76 \leq t < 77\\
+			\hat{S}_{60}(t) &= \hat{S}_{60}(76)\cdot (1 - \frac{1}{5}) = 0.246\text{ if }t \geq 77
+		\end{align*}
+	Similarly, conditional on patient greater than or equal to age $70$, we have
+	\begin{align*}
+		\hat{S}_{70}(t) &= 1 - \frac{2}{18} = 0.89 \text{ if } 70 \leq t < 71\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(70)\cdot (1 - \frac{2}{16}) = 0.78 \text{ if }71 \leq t < 72\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(71) \cdot (1 - \frac{2}{14}) =0.67 \text{    if } 72 \leq t < 73\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(72)\cdot (1 - \frac{1}{11}) =  0.606 \text{ if }73 \leq t < 74\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(73)\cdot (1 - \frac{1}{9}) =0.5387 \text{ if }74 \leq t < 76\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(74)\cdot (1 - \frac{1}{7}) = 0.462 \text{ if }76 \leq t  < 77\\
+		\hat{S}_{70}(t) &= \hat{S}_{70}(76)\cdot (1 - \frac{1}{5}) = 0.3694 \text{ if } t \geq 77
+	\end{align*}
+\end{sol}
+
+Question $\#6$:\vskip 2mm
+I confirm that I have read understood the proof of Greenwood's formula for variance.
+
+
+
+
+
+
+
+
+
+\end{document}
