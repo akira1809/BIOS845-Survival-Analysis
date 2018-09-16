@@ -1,0 +1,419 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsfonts}
+
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsrefs}
+\usepackage{ulem}
+\usepackage[dvips]{graphicx}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{cancel}
+
+\setlength{\headheight}{26pt}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+
+\topmargin 0pt
+%Forrest Shortcuts
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{pf}{Proof}
+\newtheorem{sol}{Solution}
+\newcommand{\R}{{\ensuremath{\mathbb R}}}
+\newcommand{\J}{{\ensuremath{\mathbb J}}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\T}{{\mathbb T}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\st}{{\text{\ s.t.\ }}}
+\newcommand{\rto}{\hookrightarrow}
+\newcommand{\rtto}{\hookrightarrow\rightarrow}
+\newcommand{\tto}{\to\to}
+\newcommand{\C}{{\mathbb C}}
+\newcommand{\ep}{\epsilon}
+%CJ shortcuts
+\newcommand{\thin}{\thinspace}
+\newcommand{\beps}{\boldsymbol{\epsilon}}
+\newcommand{\bwoc}{by way of contradiction}
+
+%Munkres formatting?
+%\renewcommand{\theenumii}{\alph{enumi}}
+\renewcommand{\labelenumi}{\theenumi.}
+\renewcommand{\theenumii}{\alph{enumii}}
+\renewcommand{\labelenumii}{(\theenumii)}
+
+\title{Midterm}
+\author{Guanlin Zhang}
+
+\lhead{Dr Milind Phadnis
+ \\BIOS 845} \chead{}
+\rhead{Guanlin Zhang\\ Spring '18} \pagestyle{fancyplain}
+%\maketitle
+
+\begin{document}
+
+Question $\# 1$:
+\begin{sol}
+	For part A, we have the following SAS code:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q101.jpg}
+	\end{center}
+	The table of KM estiamtes for group CPVM is (the SURV column shows the event/censoring time, censored time denoted by $\ast$. The survival column shows estimate of survival time):
+	\begin{center}
+		\includegraphics[width = 10cm]{Q103.jpg}
+	\end{center}
+	The table of KM estimates for group BCG is:
+	\begin{center}
+		\includegraphics[width = 10cm]{Q104.jpg}
+	\end{center}
+	and the plot of survival function by treatment group is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q102.jpg}
+	\end{center}
+	It appears that subjects in the group of BCG has a longer survival time than CPVM group.\vskip 2mm
+	Now to estimate the quartiles, remember by definition the pth quantile is defined as:
+	\begin{align*}
+		x_p = \inf\{t: S(t) \leq 1 - p\}
+	\end{align*}
+	an estimate is:
+	\begin{align*}
+		\hat{x}_p = \inf\{t: \hat{S}(t) \leq 1 - p\}
+	\end{align*}
+	So the 25th percentile of the survival time for group BCG is(according to the table) $19.5$, and the 25th percentile of the survival time for group CPVM is $6.9$, which also matches with the summary of the SAS output:
+	\begin{center}
+		\includegraphics[width = 6cm]{Q105.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q106.jpg}
+	\end{center}
+	However as we notice that there is no estimate for the median and 75th percentile, since at the largest event time, the estimate of survival time for each group is still larger than $1 - 0.5 = 0.5$(we get $\hat{S}(24.4) = 0.5851$ for BCG group and $\hat{S}(23.8) = 0.5091$ for CPVM group.).\vskip 2mm
+	For part B:\vskip 2mm
+	The statistic for log rank test is:
+	\begin{align*}
+		T = \sum_{j = 1}^{r}W(t_j)(e_{ij} - E_{ij})
+	\end{align*}
+	with $W(t_j) = 1$ for all $t_j$.\vskip 2mm
+	Here we have:
+	\begin{align*}
+		E_{1j} &= \frac{n_{1j}}{n_{1j} + n_{2j}}(e_{1j} + e_{2j})\\
+		E_{2j} &= \frac{n_{2j}}{n_{1j} + n_{2j}}(e_{1j} + e_{2j})
+	\end{align*}
+	So we make the following table:\vskip 2mm
+	(the actual procedure is that we sort the data by survival time in the ascending order, and we pick out the survival time where there is death instead of censoring. Based on the data we can easily compute $e_{1j}, e_{2j}, n_{1j}$ and $n_{2j}$ and hence further compute $E_{1j}$ and $E_{2j}$).
+	\vskip 2mm
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		$t_j$ & $e_{1j}$ & $e_{2j}$ & $n_{1j}$ & $n_{2j}$ & $E_{1j}$ & $E_{2j}$ & $e_{1j} - E_{1j}$ & $e_{2j} - E_{2j}$ \\
+		\hline
+		 $3.9$ & $1$ & $0$ & $11$ & $19$ & $\frac{11}{30} \times 1$ & $\frac{19}{30} \times 1$ & $1 - \frac{11}{30}$ & $0 - \frac{19}{30}$\\
+		 \hline
+		 $5.4$ & $1$ & $0$ & $10$ & $19$ & $\frac{10}{29}\times 1$ & $\frac{19}{29} \times 1$ & $1 - \frac{10}{29}$ & $0 - \frac{19}{29}$\\
+		 \hline
+		 $6.9$ & $1$ & $0$ & $9$ & $19$ & $\frac{9}{28}\times 1$ & $\frac{19}{28} \times 1$ & $1 - \frac{9}{28}$ & $0 - \frac{19}{28}$ \\
+		 \hline
+		 $7.7$ & $0$ & $1$ & $8$ & $19$ & $\frac{8}{27} \times 1$ & $\frac{19}{27}\times 1$ & $0 - \frac{8}{27}$ & $1 - \frac{19}{27}$\\
+		 \hline
+		 $7.9$ & $1$ & $0$ & $8$ & $17$ & $\frac{8}{25} \times 1$ & $\frac{17}{25} \times 1$ & $1 - \frac{8}{25}$& $0 - \frac{17}{25}$\\
+		 \hline
+		 $8.0$ & $0$ & $1$ & $7$ & $17$ & $\frac{7}{24}$ & $\frac{17}{24}$ & $0 - \frac{7}{24}$ &$1 - \frac{17}{24}$\\
+		 \hline
+		 $8.3$ & $0$ & $1$ & $5$ & $16$ & $\frac{5}{21} \times 1$ & $\frac{16}{21} \times 1$ & $0 - \frac{5}{21}$ & $1 - \frac{16}{21}$\\
+		 \hline
+		 $10.5$ & $1$ & $0$ & $5$ & $15$ & $\frac{5}{20}\times 1$  & $\frac{15}{20} \times 1$ & $1 - \frac{5}{20}$ & $0 - \frac{15}{20}$\\
+		 \hline
+		 $19.5$ & $0$ & $1$ & $1$ & $8$ & $\frac{1}{9} \times 1$& $8 \frac{8}{9} \times 1$ & $0 - \frac{1}{9}$ & $1 - \frac{8}{9}$\\
+		 \hline
+		 $24.4$ & $0$ & $1$ & $0$ & $5$ & $\frac{0}{5} \times 1$ & $\frac{5}{5}\times 1$ & $0$ & $0$\\
+		 \hline
+	\end{tabular}
+	\vskip 2mm
+	From the table above, we can compute the log rank-statistic as:
+	\begin{align*}
+		T &= \sum_{j = 1}^r(e_{1j} - E_{1j})\\
+		&= (1 - \frac{11}{30}) +(1 - \frac{10}{29}) +(1 - \frac{9}{28}) + (0 - \frac{8}{27}) + (1 - \frac{8}{25}) + (0 - \frac{7}{24}) \\
+		&\ \hskip 2cm + (0 - \frac{5}{21}) + (1 - \frac{5}{20}) + (0 - \frac{1}{9})\\
+		&= 2.459908
+	\end{align*}
+	Given $\hat{Var}(T) = 1.78$, we have:
+	\begin{align*}
+		\chi^2 = \frac{T^2}{\hat{Var}(T)} = \frac{2.459908^2}{1.78}= 3.399521
+	\end{align*}
+	(SAS gives the value as $3.4060$, this is just due to rounding error.)\vskip 2mm
+	We have 
+	\begin{align*}
+		p = P(\chi^2_1 \geq 3.399521)= 0.065 (\text{ same p value as the one given by SAS})
+	\end{align*}
+	wich is not significant at $\alpha = 0.05$ significance level.
+	Hence we fail to reject $H_0: S_{\text{BCG}}(t) =S_{\text{CPVM}}(t)$.
+	\vskip 2mm
+	For part $(C)$:\vskip 2mm
+	We have the following SAS code:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q107.jpg}
+	\end{center}
+	and the output is:
+	\begin{center}
+		\includegraphics[width = 6cm]{Q108.jpg}
+	\end{center}
+	The log-rank test has a p value $0.065$ which is consistent with our hand computation in part B, and we will fail to reject the null hypothesis that the two treatment group has the same survival curve (or hazard rate), while the p value for wilcoxon test is $ 0.044$ which is significant at the significance level $\alpha = 0.05$, and we wil reject and conclude that the hazard rate (or survival curve) is different between the two treatment groups.\vskip 2mm
+	Although the two tests give different conclusions,from the sketch of KM survival curves(which we already showed in part A). it seems that group BCG seems to have a longer survival time than group CPVM. Both $0.044$ and $0.065$ are actually pretty close to $0.05$, and we may think that the p value for logrank test is also marginally significant.
+	\vskip 2mm
+	For part $(D)$:\vskip 2mm
+	We have the following SAS code:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q109.jpg}
+	\end{center}
+	The KM survival curve is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q110.jpg}
+	\end{center}
+	From the graph we see that the survival curves actually cross.\vskip 2mm
+	The result of logrank and wilcoxon test is:
+	\begin{center}
+		\includegraphics[width = 6cm]{Q111.jpg}
+	\end{center}
+	Both p values are non-significant ($0.39$ and $0.17$) and hence we fail to reject and conclude there is not enough evidence showing the difference of hazard rate (or survival curves).\vskip 2mm
+	So it appears that when we consider survival time as outcome, our tests are inclined to conclude that there is a difference of survival time between groups, while considering time to remission as outcome, the tests do not show enough evidence to show the difference of remission period between groups.\vskip 2mm
+	For part $(E)$:\vskip 2mm
+	The test statement in lifetest proeceudre automatically execute a forward stepwise selection, the code is:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q112.jpg}
+	\end{center}
+	The output is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q113.jpg}
+	\end{center}
+	Only the p value for treatment group is marginally significant ($0.058$), which matches with our analysis in part $C$. However the p values for sex($0.074$) and p value for age $(0.104)$ are not significant and we do not need to include them if we are considering any parametric model in the future.\vskip 2mm
+	Of course as we know that the lifetest procedure is very incompetent when it comes to looking at several covariates simultaneously. So further analysis should be conducted as we will do in answering Question $\#2$.\vskip 2mm
+	For part $(F)$:\vskip 2mm
+	We make graphs about negative log survive versus survival time and log-log survival versus log survival time, the code is following:
+	\begin{center}
+		\includegraphics[width = 10cm]{Q114.jpg}
+	\end{center}
+	The negative log survival versus survival time is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q115.jpg}
+	\end{center}
+	It is not quite a straightline, so the hazard function may not be a constant, and hence we may not consider exponential AFT model in the future.\vskip 2mm
+	The log-log survival versus log survival time is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q116.jpg}
+	\end{center}
+	It is more like a straightline compared to the first graph, so the hazard function may be in a multiplicative form, and we may consider the weibull AFT model in the future.
+\end{sol}
+
+Question $\#2$.
+\begin{sol}
+	For part $(A)$:\vskip 2mm
+	{\bf Method}:\vskip 2mm
+	{\bf Step 1}: To select for the  the best model to fit the Melanoma data, we use proc lifereg in SAS to fit expoential, weibull, generalized gamma, lognormal and log-logistic models considering three covariates treatmentgroup, sex and age.\vskip 2mm
+	The SAS code is the following:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q201_code_AFT1.jpg}
+	\end{center}
+	{\bf Step 2}: We run the likelihood ratio tests among exponential, weibull and generalized gamma models since they are nested models. We also compare AIC among all the above five models to compare between non-nested models. Those with smaller AIC values are more favored. \vskip 2mm
+	From the output in {\bf Step 1} we have:\vskip 2mm
+	\begin{center}
+		\includegraphics[width = 6cm]{Q202_exp_likelihood.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q205_weib_likelihood.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q208_gamma_likelihood.jpg}
+	\end{center}
+	We run the likelihood ratio test with the following code:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q211_nested_goodness.jpg}
+	\end{center}
+	and we got the p values as :
+	\begin{center}
+		\includegraphics[width = 10cm]{Q211_nested_pvalues.jpg}
+	\end{center}
+	The above p values tell that there is a significant lack of adequacy of weibull and exponential AFT model, compared to generalied gamma(p values $0.023$ and $0.017$). However the exponential AFT model is adequate compared to weibull(p values $0.089$).\vskip 2mm
+	The AIC values for the above five models are:\vskip 2mm
+	\begin{center}
+	\begin{tabular}{|c|c|}
+		\hline
+		distribution & AIC\\
+		\hline
+		exponential & $54.360$\\
+		\hline
+		weibull & $53.474$\\
+		\hline
+		generalized gamma & $50.283$\\
+		\hline
+		log normal & $52.030$\\
+		\hline
+		log-logistic & $53.144$\\
+		\hline
+	\end{tabular}
+	\end{center}
+	\vskip 2mm	
+	We may be tempted to choose generalized gamma here based on the small AIC value and the likelihood ratio test. However we should not consider generalized gamma as a dependable model in this situation, because SAS gives the following warning for the generalized gamma model:
+	\begin{center}
+		\includegraphics[width = 14cm]{Q210_gamma_convergence.jpg}
+	\end{center}
+	On the other hand, log-normal has the smallest AIC value(if we take out generalized gamma), so we should consider log-normal as a more favorable candidate.\vskip 2mm
+	Between Weibull and exponential, we would still favor weibull over exponential for two reasons. One is that weibull has smaller AIC values, the other is that we reject the test on scale parameter equal to $1$ (p value $0.0000801$):
+	\begin{center}
+		\includegraphics[width = 6cm]{Q204_exp_est_testscale.jpg}
+	\end{center}
+	In fact the estimate of the scale parameter when fitting the weibull AFT model is: $0.5950$. (Exponential AFT model requires the scale parameter to be $1$ however).\vskip 2mm
+	{\bf Step 3}: We also use proc nlmixed in SAS to fit a Gompertz model. The nlmixed procedure usea different way to compute the likelihood, so we can not directly compare the likelihood from this procedure with those from the lifereg procedure. Accordingto the comments from Dale Mclerran we can compare the likelihood between gompertz and exponential (for large negative value of log gamma) when both are coming from the nlmixed procedure.\vskip 2mm
+	\begin{center}
+		\includegraphics[width = 10cm]{Q216_gompertz_code.jpg}
+	\end{center}
+	theoretically when $log\_gamma$ is a large negative value, the Gompertz model is close to exponential. During testing though we could not make it go beyond $-8$ on our data otherwise there will be the following warning:
+	\begin{center}
+		\includegraphics[width = 14cm]{Q221_gompertz_warning.jpg}
+	\end{center}
+	This is not tolerable since with negative eigenvalues in Hessian matrix, the algorithm will fail.\vskip 2mm
+	Plugging any value between $-2$ and $-8$ into $log\_gamma$ will yield same $-2\text{log likelihood}$ value as $88.8$, so we consider that there is no significant improvement from exponential to Gompertz.\vskip 2mm
+	Our final conclusion based on the discussion above is that:
+	\begin{enumerate}
+		\item we will not choose generalized gamma due to convergence issue
+		\item we will not choose exponential model because the scale is not $1$ and it has larger AIC value than weibull
+		\item we will not choose Gompertz because it is not an improvement over exponential
+		\item we will not choose weibull because it has larger AIC than log-normal
+		\item we choose log-normal as our final model
+	\end{enumerate}
+	{\bf Results:}\vskip 2mm
+	From fitting the log-normal model into the data, we have the following estimate:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q213_lognormal_est_format.jpg}
+	\end{center}
+	The output is translated as following:
+	\begin{enumerate}
+		\item there is not significant impact on survival time from sex ( p value $0.13$),
+		\item there is not significant impact on survival time from age ( p value $0.10$),
+		\item controlling for sex and age, the expected survival time in treatment group BCG is $exp(1.0669) -  1 = 190\%$ longer than the treatment group CPVM.
+	\end{enumerate}
+	For part $(B)$:\vskip 2mm
+	To graph the survival curve by treatment group for female at age of 40, we have the following code:
+	\begin{center}
+		\includegraphics[width = 10cm]{Q222.jpg}
+	\end{center}
+	The output is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q223.jpg}
+	\end{center}
+\end{sol}
+
+Question $\#3$:
+\begin{sol}
+	For part $(A)$:\vskip 2mm
+	For parametric survival models (AFT model), the number of likelihood terms is the same as the number of the subjects. In our case, it is $238$.\vskip 2mm
+	For Cox-Regression model, when considering partial likelihood for data with ties, suppose at a particular time point the number of observations that tied at this point is $m$, then instead of having $m$ terms of likelihood we will then have $m!$ term involved in computing the likelihood function. So the extra terms involved in the likelihood function is $m! - m = m((m-1)! - 1)$.\vskip 2mm
+	For example, if there is a $2$ tie event, we have two terms coming out of this tie involved in computing likelihood, but if without tie we also have two terms, so the extra terms involved is $2(1 - 1)= 0$. If there is a $3$ tie event, we have $6$ terms coming out of this tie, compared to the $3$ terms without tie, we have extra $3(2 - 1) = 3$ terms involved. \vskip 2mm
+	The following SAS code print out the record of ties:
+	\begin{center}
+		\includegraphics[width = 6cm]{Q301.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q302.jpg}
+	\end{center}
+	We only have $1$ event time that is a $3$ tie event, and the rest are $2$ tie events or without ties. So a total of extra $3$ terms are produced out of the $3$ tie event when computing the partial likelihood.\vskip 2mm
+	From proc freq we also get the following information:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q303.jpg}
+	\end{center}
+	We have $150$ event time, so the total number of terms involved in computing partial likelihood function is $150 + 3 = 153$.
+	\vskip 2mm
+	For part $(B)$:\vskip 2mm
+	Our proportional hazard model is:
+	\begin{align*}
+		h\Big(t, \text{clinic}(i), \text{prison}(i), \text{dose}(i)\Big) &= h_0(t) \exp\Big(\beta_1\cdot \text{clinic}(i)  +\beta_2 \cdot \text{prison}(i) + \beta_3\cdot \text{dose}(i)\Big)
+	\end{align*}
+	For part $(C)$:\vskip 2mm
+	The SAS code to fit the model in part $(B)$ is:
+	\begin{center}
+		\includegraphics[width = 10cm]{Q304.jpg}
+	\end{center}
+	part of the output is:
+	\begin{center}
+		\includegraphics[width = 14cm]{Q305.jpg}
+	\end{center}
+	The $95\%$ confidence interval for clinic is $(0.245, 0.560)$. It does not include $0$ suggesting we should reject the null hypothesis for $H_0: \beta_1 = 0$ (also consistent with p value $= 0.0000026$), so we conclude that the effect of clinic is significant at the $0.05$ significance level.\vskip 2mm
+	For part $(D)$:\vskip 2mm
+	We use exact and efron option in the model statement for different ways to handle ties. The exact method is like the one we discussed in part $(A)$(ii) and lecture notes.
+	\begin{center}
+		\includegraphics[width = 12cm]{Q306.jpg}
+	\end{center}
+	Output for exact:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q307_exact.jpg}
+	\end{center}
+	Output for efron:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q308_efron.jpg}
+	\end{center}
+	as we can see that the eferon option produce a result more close to the exact method than the breslow. The breslow produce a slightly different estimates but the conclusion for inference is the same.\vskip 2mm
+	For part $(E)$:\vskip 2mm
+	we make our categorical variable and make the dosage $<60$ as the baseline dosage.
+	\begin{center}
+		\includegraphics[width = 12cm]{Q309_E.jpg}
+	\end{center}
+	We got the following output:
+	\begin{center}
+		\includegraphics[width = 14cm]{Q310_E.jpg}
+	\end{center}
+	We see that the estimate for the effect of clinic and prison is slightly different, compared to before when we treat dose as a continuous variable. But they are still very close. The interpretaiton is different since previously the effect of clinic and prison is adjusted for fixed numeric value of dosage, while right now the effect of clinic and prison is adjusted for a given range of dosage values.\vskip 2mm
+	For part $(F)$:\vskip 2mm
+	We may be able to use parametric model instead of Cox model here for our data. Our sample size is large, in fact if we graph the negative log survive versus time and log-log survival versus log time with proc lifetest, we got the following:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q311_F.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 10cm]{Q312_F.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 10cm]{Q313_F.jpg}
+	\end{center}
+	Both graph displays a very good linear pattern, which makes it possible for us to consider parametric mode like exponential model or weibull model. The parametric model will give us more information on the nature of the data than the cox model.\vskip 2mm
+	For part $(G)$:\vskip 2mm
+	The only way we can get an estimate for hazard function directly is through the lifetable method in proc lifetest. Then we create another variable for $log(\text{hazard})$ and use proc sgplot to plot the $log(\text{hazard})$ versus length variable grouped by clinic and prison separately.\vskip 2mm
+	The code for clinic is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q317_G.jpg}
+	\end{center}
+	and the plot is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q318_G.jpg}
+	\end{center}
+	The curves are approximately parallel, supporting the assumption of proportionl hazard with the presence of clinic as a covariate.\vskip 2mm
+	The code for checking prisoin is similar:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q319_G.jpg}
+	\end{center}
+	and the plot is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q320_G.jpg}
+	\end{center}
+	However this time the curves are not parallel, so the PH assumption may not be valid for prison.
+\end{sol}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
