@@ -1,0 +1,315 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsfonts}
+
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsrefs}
+\usepackage{ulem}
+\usepackage[dvips]{graphicx}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{cancel}
+
+\setlength{\headheight}{26pt}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+
+\topmargin 0pt
+%Forrest Shortcuts
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{pf}{Proof}
+\newtheorem{sol}{Solution}
+\newcommand{\R}{{\ensuremath{\mathbb R}}}
+\newcommand{\J}{{\ensuremath{\mathbb J}}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\T}{{\mathbb T}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\st}{{\text{\ s.t.\ }}}
+\newcommand{\rto}{\hookrightarrow}
+\newcommand{\rtto}{\hookrightarrow\rightarrow}
+\newcommand{\tto}{\to\to}
+\newcommand{\C}{{\mathbb C}}
+\newcommand{\ep}{\epsilon}
+%CJ shortcuts
+\newcommand{\thin}{\thinspace}
+\newcommand{\beps}{\boldsymbol{\epsilon}}
+\newcommand{\bwoc}{by way of contradiction}
+
+%Munkres formatting?
+%\renewcommand{\theenumii}{\alph{enumi}}
+\renewcommand{\labelenumi}{\theenumi.}
+\renewcommand{\theenumii}{\alph{enumii}}
+\renewcommand{\labelenumii}{(\theenumii)}
+
+\title{HW4}
+\author{Guanlin Zhang}
+
+\lhead{Dr Milind Phadnis
+ \\BIOS 845} \chead{}
+\rhead{Guanlin Zhang\\ Spring '18} \pagestyle{fancyplain}
+%\maketitle
+
+\begin{document}
+
+Question $\# 1$:
+\begin{sol}
+	For part I:\vskip 2mm
+	For part $(A)$:\vskip 2mm
+	we fit a proportional model considering the interaction between sex and weeks(before or after $15$ weeks). Namely, the model is:
+	\begin{align*}
+		h(t) &= h_0(t)\cdot \exp\Big(\beta_1\text{RX} + \beta_2\text{LOGWBC} + \beta_3\text{SEX} + \beta_4\text{SEXT}\Big)
+	\end{align*}
+	where 
+	\begin{align*}
+		\text{SEXT} &= \text{SEX}\cdot I(\text{WEEKS} > 15)
+	\end{align*}
+	The SAS code is given as:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q1A01.jpg}
+	\end{center}
+	and the output is:
+	\begin{center}
+		\includegraphics[width = 14cm]{Q1A02.jpg}
+	\end{center}
+	It appears that the interaction between SEX and WEEKS are {\bf NOT} significant. Also the test suggets that there are not significant effects from SEX either before or after WEEK $15$.\vskip 2mm
+	Controlled for SEX and LOGWBC, the treatment effect RX is significant (p value $0.0014$), and a $95\%$ hazard ratio confidence interval is $(1.800, 11.729)$, so the $95\%$ confidence interval for the treatment coefficient $\beta_1$ is: $(\log(1.800), \log(11.729)) = (0.588, 2.462)$\vskip 2mm
+	For part $(B)$:\vskip 2mm
+	we consider a new variable called `period' to represent the time interval, up to the event or censoring time for each subject.\vskip 2mm
+	We also create a new variable called `response' as the binary dependent variable.\vskip 2mm
+	The model now becomes:
+	\begin{align*}
+		\log\Big(-\log(1 - h_{ij})\Big) = \alpha_j + \beta_1\text{RX} + \beta_2\text{LOGWBC} + \beta_3\text{SEX} + \beta_4\text{SEXT} + \beta_5\text{PERIOD}
+	\end{align*}
+	Here $h_{ij}$ is the discrete-time hazard rate for subject $i$ at time interval $j$.\vskip 2mm
+	The period is modeled as a linear effect instead of categorical(unrestricted effect) to deal with issues of empty time intervals. We also modeld the interaction between SEX and the WEEKS of before and after $15$.\vskip 2mm
+	The SAS code is:
+	\begin{center}
+		\includegraphics[width = 14cm]{Q1B01.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 10cm]{Q1B02.jpg}
+	\end{center}
+	The confidence interval for treatment effect is given by both profile likelihood and wald tests:
+	\begin{center}
+		\includegraphics[width = 7cm]{Q1B03.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 7cm]{Q1B04.jpg}
+	\end{center}
+	In the complementary log-log model, the treatment effect is also significant(p value $0.002$).\vskip 2mm
+	For part $(C)$:\vskip 2mm
+	Compare the proportional hazard model with the complementary log-log model, the parameter estimates for treatment effect RX($1.52$ and $1.44$) and LOGWBC($1.70$ and $1.48$) are similar. This is because the regression coeffecients in the log-log model are identical to the coefficients in the underlying proportional hazards model.\vskip 2mm
+	The estimates for sex($0.3495$ and $0.0926$) and sext($-0.3093$ and $-0.5964$) are different because in the complementary log-log model, we involved the time interval as a covariate (linear effect here), and also our interaction between sex and the time interval is considered. This is differently handled in the proportional hazard model (where the interaction is only between sex and the event time).\vskip 2mm
+	For part II:\vskip 2mm
+	For part $(A)$:\vskip 2mm
+	I confirm that I have read page $\#236-240$ of Allison's book and understood the analysis of the job duration data using the logit model.\vskip 2mm
+	To compare later, we print out the output of the logit model here:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q12A01.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 8cm]{Q12A02.jpg}
+	\end{center}
+	For part $(B)$:\vskip 2mm
+	we just need to change the link function in order to fit the complementary log-log model. We first use the class statement for the unrestricted model. then consider separately the linear, quadratic and logarithm effect of the year in the model.
+	\begin{center}
+		\includegraphics[width = 13cm]{Q12B01.jpg}
+	\end{center}
+	The output of the unrestricted model is the following:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q12B02.jpg}
+	\end{center}
+	We can see that it is pretty similar to the results of the logit model, and we also get a significant effect of the year from the Wald chi-square test.\vskip 2mm
+	We can also compare the AIC and SC of all four models:
+	\begin{center}
+	\begin{tabular}{ccc}
+		\hline
+		& AIC & SC\\
+		\hline
+		Unrestricted&$216.209$& $245.055$\\
+		Linear&$218.111$& $236.140$\\
+		Quadratic& $213.273$ & $234.908$\\
+		Logarithmic& $213.310$ & $231.339$\\
+		\hline
+	\end{tabular}
+	\end{center}
+	The model with quadratic effect of year gives the smallest AIC value, but very close to the model with logarithm of year . The model with logarithm of year gives the smallest SC value, which is consistent with the logit model comparison.\vskip 2mm
+	So both logit and complementary log-log models suggest that the model with logarithmic of year is preferrable.
+\end{sol}
+
+Question $\#2$.
+\begin{sol}
+	For part $I$:\vskip 2mm
+	For part $(A)$:\vskip 2mm
+	If we compute by hand, then we get:
+	\begin{align*}
+		\#\text{events} &= \frac{c(\alpha, P)}{\pi_1(1 - \pi_1)\beta^2_{\ast}}\\
+		&= \frac{c(0.05, 0.9)}{0.5\cdot 0.5 \cdot \Big[\log(1.38)\Big]^2} = \frac{10.51}{0.25\cdot \Big[\log(1.38)\Big]^2}\\
+		&\simeq 405.25
+	\end{align*}
+	So we need $406$ events.\vskip 2mm
+	If we assume as in part B, that the accrual time is three years and the follow up is one year, then we can do it with SAS as well:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q2A01.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q2A02.jpg}
+	\end{center}
+	So we need $398$ total events, which is slightly smaller than the hand calculation, but with extra information of accrual time and follow up time.\vskip 2mm
+	For part $(B)$:\vskip 2mm
+	We just simply replace the SAS line above `eventstotal' with `ntotal', we get:
+	\begin{center}
+		\includegraphics[width = 6cm]{Q2B01.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 4cm]{Q2B02.jpg}
+	\end{center}
+	So we need a total sample size of $2076$, namely $1038$ in each of the control and treatmet group.\vskip 2mm
+	For part $(C)$:\vskip 2mm
+	We slightly modify the above code:
+	\begin{center}
+		\includegraphics[width = 8cm]{Q2C01.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{Q2C02.jpg}
+	\end{center}
+	For part $(D)$:\vskip 2mm
+	To compute the number of events by hand, we have:
+	\begin{align*}
+		\#\text{events} &= \frac{c(\alpha, P)}{\pi_1(1 - \pi_1)\beta^2_{\ast}}\\
+		&= \frac{c(0.05, 0.9)}{0.25\cdot 0.75 \cdot \Big[\log(1.38)\Big]^2} = \frac{10.51}{0.25\cdot 0.75\cdot \Big[\log(1.38)\Big]^2}\\
+		&\simeq 540.34
+	\end{align*}
+	So we need a total of $541$ events.\vskip 2mm
+	If we want to compute it by SAS, assuming accrual period as three years and follow up as 1 year, then:
+	\begin{center}
+		\includegraphics[width = 6cm]{Q2D01.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q2D02.jpg}
+	\end{center}
+	so we need $608$ total events according to SAS.\vskip 2mm
+	To compute the total sample size, we have:
+	\begin{center}
+		\includegraphics[width = 7cm]{Q2D03.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 4cm]{Q2D04.jpg}
+	\end{center}
+	So we need $2964$ total sample size. It is not surprising to see that for unbalanced study it requires more sample size to maintain the same power.\vskip 2mm
+	For part $II$:\vskip 2mm
+	Change the AFT model to be with 
+	\begin{align*}
+		\exp(\beta_{AFT}) = 2 = S^{-1}_{TRT}(p)/S^{-1}_{CTL}(p)
+	\end{align*}
+	We get the following SAS code:
+	\begin{center}
+		\includegraphics[width = 13cm]{Q2201.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 4cm]{Q2202.jpg}
+	\end{center}
+	So we need $14$ sample size in each group, namely 28 in total. Also accouting for an O/N ratio $\simeq 0.90$, so we need $14/0.9 \simeq 16$ in each arm, so the total sample size will be 32.
+\end{sol}
+
+Question $\#3$:
+\begin{sol}
+	For part I, we solve exercise $5.2$ by following the algorithm presented by lecture notes.\vskip 2mm
+	The data is given as the following:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q3A01.jpg}
+	\end{center}
+	Our SAS code is as following:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q3A02.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 12cm]{Q3A03.jpg}
+	\end{center}
+	The output for the survival function estimate after 3 iteration is:
+	\begin{center}
+		\includegraphics[width = 2cm]{Q3A04.jpg}
+	\end{center}
+	During the discussion with classmates, I have noticed that a few of those who did this problem with excel have different results than mine. With a closer check, I find that my result after the first iteration is still the same as theirs, also my estimate at step 0 is the same as when I check with proc lifetest. But apprently there is something wrong here, because the survival curve from proc iclifetest later on clearly shows that the survival estimates should stay above $0.40$ at all time. However I could not figure out what is wrong with my code. \vskip 2mm
+	For part II:\vskip 2mm
+	We give the following SAS code:
+	\begin{center}
+		\includegraphics[width = 10cm]{Q3B01.jpg}
+	\end{center}
+	and the estimate for survival is:
+	\begin{center}
+		\includegraphics[width = 10cm]{Q3B03.jpg}
+	\end{center}
+	\begin{center}
+		\includegraphics[width = 6cm]{Q3B02.jpg}
+	\end{center}
+\end{sol}
+
+Question $\#4$
+\begin{sol}
+	The following code read in the given data:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q401.jpg}
+	\end{center}
+	and the following code fit piecewise exponential model and cubic spline model separately(the screenshot was made on my laptop without 13.2 patch of SAS 9.4, that is why the color of text looks different. But the code is runnable on the computer in the basement):
+	\begin{center}
+		\includegraphics[width = 12cm]{Q402.jpg}
+	\end{center}
+	The estimate for the piecewise exponential model is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q403.jpg}
+	\end{center}
+	As we can see that the p value for group effect is significant $(<0.0001)$, so there is a difference between adult and children when it comes to the judgement of shelf life time. The point estimate of the hazard ratio of adult vs children is $3.378$, indicates that the shelf life from adults' judgement is shorter than that from children. \vskip 2mm
+	The plot of survival curve supports this:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q404.jpg}
+	\end{center}
+	The estimate for the cubic spline model is:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q405.jpg}
+	\end{center}
+	We also got significant p value($<0.0001$) for the group effect(adults vs children), and the point estimate ($3.373$) suggests the same conclusion as in piecewise exponential model.\vskip 2mm
+	A plot of survival curves is provided too:
+	\begin{center}
+		\includegraphics[width = 12cm]{Q406.jpg}
+	\end{center}
+	Again we see the shelf life time judged by adults are shorter than children.
+\end{sol}
+
+Question $\#5$
+\begin{sol}
+	I confirm that I have read page $149$ to page $150$ of the textbook about ``Nonparametric estimation of the survival function for right-truncated data'' and understood how the calculations are done.
+\end{sol}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
